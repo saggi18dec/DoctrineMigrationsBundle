@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\DoctrineBundle\Command\DoctrineCommand as BaseCommand;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Base class for Doctrine console commands to extend from.
@@ -23,7 +24,7 @@ use Doctrine\DBAL\Migrations\Configuration\Configuration;
  */
 abstract class DoctrineCommand extends BaseCommand
 {
-    public static function configureMigrations(ContainerInterface $container, Configuration $configuration)
+    public static function configureMigrations(ContainerInterface $container, Configuration $configuration, InputInterface $input)
     {
         $emName = $input->getOption('em') != '' ? $input->getOption('em') : 'default';
 
