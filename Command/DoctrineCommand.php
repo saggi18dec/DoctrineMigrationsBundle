@@ -25,7 +25,11 @@ abstract class DoctrineCommand extends BaseCommand
 {
     public static function configureMigrations(ContainerInterface $container, Configuration $configuration)
     {
-        $dir = $container->getParameter('doctrine_migrations.dir_name');
+        $emName = $input->getOption('em') != '' ? $input->getOption('em') : 'default';
+
+        $dir = $container->getParameter('doctrine_migrations.dir_name')
+                . DIRECTORY_SEPARATOR
+                . $emName;
         if (!file_exists($dir)) {
             mkdir($dir, 0777, true);
         }
