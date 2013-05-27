@@ -19,6 +19,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Doctrine\Bundle\DoctrineBundle\Command\DoctrineCommand as BaseCommand;
 use Doctrine\DBAL\Migrations\Configuration\Configuration;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Base class for Doctrine console commands to extend from.
@@ -27,9 +28,12 @@ use Doctrine\DBAL\Migrations\Configuration\Configuration;
  */
 abstract class DoctrineCommand extends BaseCommand
 {
-    public static function configureMigrations(ContainerInterface $container, Configuration $configuration)
+    public static function configureMigrations(ContainerInterface $container, Configuration $configuration, InputInterface $input)
     {
-        $dir = $container->getParameter('doctrine_migrations.dir_name');
+ 	$emName = $input->getOption('em') != '' ? $input->getOption('em') : 'default';
+        $dir = $container->getParameter('doctrine_migrations.dir_name')
+                . DIRECTORY_SEPARATOR
+                . $emName;
         if (!file_exists($dir)) {
             mkdir($dir, 0777, true);
         }
